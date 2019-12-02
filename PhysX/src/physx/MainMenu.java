@@ -19,8 +19,7 @@ public class MainMenu implements Menu{
         System.out.println("\nMain Menu:");
         System.out.println("\t 1) New Simulation.");
         System.out.println("\t 2) Load Simulation.");
-        System.out.println("\t 3) Delete Simulation.");
-        System.out.println("\t 4) Exit.");
+        System.out.println("\t 3) Exit.");
     };
 
     @Override
@@ -28,7 +27,7 @@ public class MainMenu implements Menu{
         int num = 999;
         Scanner in = new Scanner(System.in);
         
-        while(num != 1 && num != 2 && num != 3 && num != 4){
+        while(num != 1 && num != 2 && num != 3){
             System.out.println("\nPlease choose an option listed above.");
             num = in.nextInt();
         }
@@ -44,9 +43,6 @@ public class MainMenu implements Menu{
                 lm.start();
                 break;
             case 3:
-                System.out.println("Deleting Simulation...\n");
-                break;
-            case 4:
                 System.out.println("Exiting Program...\n");                
                 System.exit(0);
                 break;
