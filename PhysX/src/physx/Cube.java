@@ -9,7 +9,7 @@ import static java.lang.Math.abs;
 
 /**
  *
- * @author Samuel
+ * 
  */
 public class Cube implements ObjInterface{
     private String type = "Cube";

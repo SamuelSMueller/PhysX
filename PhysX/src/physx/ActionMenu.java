@@ -14,10 +14,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- *
- * @author Samuel
- */
+
+
 public class ActionMenu implements Menu{
     
     private ArrayList<ObjInterface> objects;

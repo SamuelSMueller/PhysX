@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Samuel
+ * 
  */
 public interface ObjInterface extends Serializable{
     public void print();

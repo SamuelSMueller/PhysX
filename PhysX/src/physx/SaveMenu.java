@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Samuel
+ * 
  */
 public class SaveMenu implements Menu{
     

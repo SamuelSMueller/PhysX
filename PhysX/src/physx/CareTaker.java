@@ -16,11 +16,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-
-/**
- *
- * @author Samuel
- */
 public class CareTaker {
     
      public ArrayList<ObjInterface> serializeDataIn(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException{

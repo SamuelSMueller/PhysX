@@ -7,7 +7,7 @@ package physx;
 
 /**
  *
- * @author Samuel
+ * 
  */
 public interface Menu {
     public void displayOptions();

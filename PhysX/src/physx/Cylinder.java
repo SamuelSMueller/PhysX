@@ -9,7 +9,7 @@ import static java.lang.Math.abs;
 
 /**
  *
- * @author Samuel
+ * 
  */
 public class Cylinder implements ObjInterface{
     private String type = "Cylinder";

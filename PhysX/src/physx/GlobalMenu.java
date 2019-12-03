@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Samuel
+ * 
  */
 public class GlobalMenu implements Menu{
     

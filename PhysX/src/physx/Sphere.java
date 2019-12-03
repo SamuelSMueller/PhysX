@@ -9,7 +9,7 @@ import static java.lang.Math.abs;
 
 /**
  *
- * @author Samuel
+ * 
  */
 public class Sphere implements ObjInterface{
     private String type = "Sphere";

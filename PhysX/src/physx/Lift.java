@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Samuel
+ * 
  */
 public class Lift implements Command{
     private ArrayList<ObjInterface> objects;

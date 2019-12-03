@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Samuel
+ * 
  */
 public class LoadMenu implements Menu{
     

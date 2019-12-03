@@ -5,10 +5,6 @@
  */
 package physx;
 
-/**
- *
- * @author Samuel
- */
 public interface Command {
     public ObjInterface execute();
     public void print();

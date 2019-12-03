@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Samuel
+ * 
  */
 public class Drop implements Command{
     private ArrayList<ObjInterface> objects;
