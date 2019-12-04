@@ -86,7 +86,7 @@ public class GlobalMenu implements Menu{
                 System.out.println("Erasing Current Objects...");
                 objects.clear();
                 System.out.println("Beginning Object Creation...");
-                ObjFactory factory = new ObjFactory();
+                ObjFactory factory = ObjFactory.getFactory();
                 ObjInterface object = null;
                 int sNum = 999;
                 for(int i = 0; i<count; ++i){

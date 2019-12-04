@@ -25,7 +25,12 @@ public class CareTaker {
         ois.close(); 
         return objects;
     }
+     private static CareTaker ct = new CareTaker();
+     private CareTaker(){}
      
+     public static CareTaker getCareTaker(){
+         return ct;
+     }
     
     public void serializeDataOut(ArrayList<ObjInterface> objects, File file)throws IOException{
         if (!file.exists()) {

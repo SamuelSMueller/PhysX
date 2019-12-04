@@ -22,6 +22,14 @@ public class ObjFactory {
     private int z;
     private ArrayList<ObjInterface> pool = new ArrayList();
             
+    
+    private static ObjFactory factory = new ObjFactory();
+    
+    private ObjFactory(){}
+    
+    public static ObjFactory getFactory(){
+        return factory;
+    }
     public ObjInterface makeObject(String shape){
         if(pool.size() >= 10){
             System.out.println("Maximum number of objects has been reached. Unable to complete object creation.");

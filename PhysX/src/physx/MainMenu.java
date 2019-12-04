@@ -12,7 +12,7 @@ import java.util.Scanner;
  */
 public class MainMenu implements Menu{
     
-    CareTaker ct = new CareTaker();
+    CareTaker ct = CareTaker.getCareTaker();
     
     @Override
     public void displayOptions(){
