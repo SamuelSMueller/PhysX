@@ -14,7 +14,8 @@ import java.util.Scanner;
  * 
  */
 public class Drop implements Command{
-    private ArrayList<ObjInterface> objects;
+    private ArrayList<ObjInterface> objects = new ArrayList();
+    private ArrayList<ObjInterface> collides = new ArrayList();
     private String cName;
     private double friction;
     private double gravity;
@@ -47,6 +48,7 @@ public class Drop implements Command{
     
     public void getInput(){
         distance = cObject.calcDrop(gravity);
+                
         cObject.move(0, 0, -1 * distance);
     }
     

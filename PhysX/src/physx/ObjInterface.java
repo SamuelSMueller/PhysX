@@ -6,6 +6,7 @@
 package physx;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,5 +27,4 @@ public interface ObjInterface extends Serializable{
     public int calcMovement(double force, double gravity, double friction);
     public int calcLift(double force, double gravity);
     public int calcDrop(double gravity);
-    public int getVolume();
 }

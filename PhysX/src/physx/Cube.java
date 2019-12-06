@@ -19,7 +19,6 @@ public class Cube implements ObjInterface{
     private int x; //coordinates
     private int y; 
     private int z;
-    private int volume;
     
     public Cube(String namei, int heighti, float massi, int xi, int yi, int zi){
         name = namei;
@@ -27,10 +26,9 @@ public class Cube implements ObjInterface{
         mass = massi;
         x = xi;
         y = yi;
-        z = zi;
-        volume = height * height * height;
+        z = zi;    
     }
-    
+      
     
     public Cube(ObjInterface o){
         if(o.getType().equals("Cube")){
@@ -141,8 +139,4 @@ public class Cube implements ObjInterface{
         return z;
     }
 
-    @Override
-    public int getVolume(){
-        return volume;
-    }
 }

@@ -6,6 +6,7 @@
 package physx;
 
 import static java.lang.Math.abs;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,7 +20,6 @@ public class Sphere implements ObjInterface{
     private int x; //coordinates
     private int y; 
     private int z;
-    private int volume;
     
     public Sphere(String namei, int radiusi, float massi, int xi, int yi, int zi){
         name = namei;
@@ -28,7 +28,6 @@ public class Sphere implements ObjInterface{
         x = xi;
         y = yi;
         z = zi;
-        volume = (int)((4/3) * radius*radius*radius * 3.14);
     }
     
     public Sphere(ObjInterface o){
@@ -137,9 +136,5 @@ public class Sphere implements ObjInterface{
     public int getZ(){
         return z;
     }
-    
-    @Override
-    public int getVolume(){
-        return volume;
-    }
+   
 }

@@ -13,7 +13,8 @@ import java.util.Scanner;
  * 
  */
 public class Lift implements Command{
-    private ArrayList<ObjInterface> objects;
+    private ArrayList<ObjInterface> objects = new ArrayList();
+    private ArrayList<ObjInterface> collides = new ArrayList();
     private String cName;
     private double force;
     private double friction;
@@ -51,6 +52,7 @@ public class Lift implements Command{
         force = in.nextFloat();
         distance = cObject.calcLift(force, gravity);
         cObject.move(0, 0, distance);
+        
     }
     
     public void printResult(){

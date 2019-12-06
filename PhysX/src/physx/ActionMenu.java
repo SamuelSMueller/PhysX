@@ -159,7 +159,6 @@ public class ActionMenu implements Menu{
                 uCmd = null;
                 prevState = null;
                 afterState = null;              
-
                 resetFlag = false;
                 break;
             case 10:

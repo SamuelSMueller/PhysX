@@ -13,7 +13,8 @@ import java.util.Scanner;
  * 
  */
 public class Push implements Command{
-    private ArrayList<ObjInterface> objects;
+    private ArrayList<ObjInterface> objects = new ArrayList();
+    private ArrayList<ObjInterface> collides = new ArrayList();
     private String cName;
     private double force;
     private double friction;
@@ -63,23 +64,28 @@ public class Push implements Command{
         }
         
         distance = cObject.calcMovement(force, gravity, friction);
-                    
+        
         switch (num) {
             case 1:
                 System.out.println("Pushing " + cObject.getName() + " forward... ");
                 cObject.move(0, distance, 0);
+                                    
                 break;
             case 2:
                 System.out.println("Pushing " + cObject.getName() + " backward... ");
                 cObject.move(0, -1 * distance, 0);
+
                 break;
+                
             case 3:
                 System.out.println("Pushing " + cObject.getName() + " right... ");
                 cObject.move(distance, 0, 0);
+                
                 break;
             case 4:
                 System.out.println("Pushing " + cObject.getName() + " left... ");
                 cObject.move(-1 * distance, 0, 0);
+
                 break;
             default:
                 break;
