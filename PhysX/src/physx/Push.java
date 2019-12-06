@@ -31,6 +31,7 @@ public class Push implements Command{
     
     @Override
     public ObjInterface execute(){
+        
         displayOptions();
         getInput();
         printResult();

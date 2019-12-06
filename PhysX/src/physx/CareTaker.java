@@ -56,15 +56,17 @@ public class CareTaker {
         String directory = s.substring(0, s.length() - 1);
         String filename;
         int i = 1;
-        //ArrayList<String> textFiles = new ArrayList<String>();
+        
         System.out.println("Current PhysX Files: ");
         File dir = new File(directory);
         for (File file : dir.listFiles()) {
             if (file.getName().endsWith(("physX"))) {
                 filename = file.getName();
                 filename = filename.substring(0, filename.length() -6);
-                System.out.println(i++ + ": " + filename);
-                //textFiles.add(file.getName());
+                if(!filename.equals("tmp")){
+                    System.out.println(i++ + ": " + filename);
+                
+                }
             }
         }
     }
@@ -78,7 +80,7 @@ public class CareTaker {
          try {
              this.serializeDataOut(objects, file);
          } catch (IOException ex) {
-             System.out.println("Error: Unable to create backup file.");
+             System.out.println("Error: Unable to update current data.");
          }
         
     }
@@ -96,11 +98,13 @@ public class CareTaker {
         String directory = s.substring(0, s.length() - 1) + filename;
         File file = new File(directory);
         boolean deleted = file.delete();
-        if(deleted){
-            System.out.println(filename + " successfully deleted.\n");
-        }
-        else{
-            System.out.println("Unable to delete " +filename+ ".");
+        if(!filename.equals("tmp.physX")){
+            if(deleted){
+                System.out.println(filename + " successfully deleted.\n");
+            }
+            else{
+                System.out.println("Unable to delete " +filename+ ".");
+            }
         }
     }
     

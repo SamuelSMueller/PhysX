@@ -55,16 +55,19 @@ public class LoadMenu implements Menu{
                 System.out.println("Please input the name of the file you would like to load: ");
                 in.nextLine();
                 String fileName = in.nextLine()+".physX";
+                    if(fileName.equals(".physX")){
+                        break;
+                    }
         
-        {
-            try {
-                objects = caretaker.serializeDataIn(fileName);
-            } catch (IOException ex) {
-                System.out.println("Error: Unable to load file.");
-            } catch (ClassNotFoundException ex) {
-                System.out.println("Error: Unable to load file.");
-            }
-        }
+                {
+                try {
+                    objects = caretaker.serializeDataIn(fileName);
+                    } catch (IOException ex) {
+                        System.out.println("Error: Unable to load file.");
+                    } catch (ClassNotFoundException ex) {
+                        System.out.println("Error: Unable to load file.");
+                    }
+                }
                 for(int i = 0; i<objects.size(); ++i){
                     objects.get(i).print();
                 }
