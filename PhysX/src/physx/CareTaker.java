@@ -89,4 +89,24 @@ public class CareTaker {
         return objects;
     }
     
+    public void deleteFile(String filename){
+        filename = filename+".physX";
+        Path path = FileSystems.getDefault().getPath(".").toAbsolutePath();        
+        String s = path.toAbsolutePath().toString();
+        String directory = s.substring(0, s.length() - 1) + filename;
+        File file = new File(directory);
+        boolean deleted = file.delete();
+        if(deleted){
+            System.out.println(filename + " successfully deleted.\n");
+        }
+        else{
+            System.out.println("Unable to delete " +filename+ ".");
+        }
+    }
+    
+    public void deleteState(){
+        this.deleteFile("tmp");
+        System.out.println("Cleaning...");
+        
+    }
 }

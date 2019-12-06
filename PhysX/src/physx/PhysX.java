@@ -22,12 +22,9 @@ public class PhysX {
         System.out.println("Welcome to PhysX.\nPress Enter to Continue:\n\n");
         try {
             System.in.read();
-        } catch (IOException ex) {
-            Logger.getLogger(PhysX.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (IOException ex) {}
         System.out.println("Thank you.");
         Menu mm = new MainMenu();
-        mm.displayOptions();
-        mm.getInput();
+        mm.start();
     }
 }

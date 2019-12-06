@@ -27,7 +27,7 @@ public class SaveMenu implements Menu{
     private double friction;
     Scanner in = new Scanner(System.in);
     CareTaker caretaker;
-    
+    boolean resetFlag = true;
     SaveMenu(ArrayList<ObjInterface> objs, double grav, double fric, CareTaker ct){
         objects = objs;
         gravity = grav;
@@ -76,11 +76,14 @@ public class SaveMenu implements Menu{
                 break;
             case 2:
                 System.out.println("Returning to simulation...\n");
-                Menu am = new ActionMenu(objects, gravity, friction, caretaker);
-                am.start();
+                resetFlag = false;
                 break;
             case 3:
-                System.out.println("Exiting Program...\n");
+                caretaker.deleteState();
+                System.out.println("\nPress Enter to End Program:\n\n");
+                try {
+                    System.in.read();
+                } catch (IOException ex) {}
                 System.exit(0);
                 break;
             default:
@@ -90,7 +93,7 @@ public class SaveMenu implements Menu{
     
     @Override
     public void start(){
-        while(true){
+        while(resetFlag){
             this.displayOptions();
             this.getInput();
         }

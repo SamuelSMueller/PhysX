@@ -25,7 +25,8 @@ public class LoadMenu implements Menu{
     private double gravity;
     private double friction;
     private CareTaker caretaker;
-    Scanner in = new Scanner(System.in);    
+    Scanner in = new Scanner(System.in);  
+    boolean resetFlag = true;
     
     LoadMenu(CareTaker ct){
         caretaker = ct;
@@ -64,18 +65,23 @@ public class LoadMenu implements Menu{
                 System.out.println("Error: Unable to load file.");
             }
         }
-
+                for(int i = 0; i<objects.size(); ++i){
+                    objects.get(i).print();
+                }
                 System.out.println("Loading Settings Menu...\n");
-                Menu gm = new GlobalMenu(objects);
+                Menu gm = new GlobalMenu(objects, caretaker);
                 gm.start();
                 break;
             case 2:
                 System.out.println("Returning to Main Menu...\n");
-                Menu mm = new MainMenu();
-                mm.start();
+                resetFlag = false;
                 break;
             case 3:
-                System.out.println("Exiting Program...\n");
+                caretaker.deleteState();
+                System.out.println("\nPress Enter to End Program:\n\n");
+                try {
+                    System.in.read();
+                } catch (IOException ex) {}                
                 System.exit(0);
                 break;
             default:
@@ -85,7 +91,7 @@ public class LoadMenu implements Menu{
     
     @Override
     public void start(){
-        while(true){
+        while(resetFlag){
             this.displayOptions();
             this.getInput();
         }

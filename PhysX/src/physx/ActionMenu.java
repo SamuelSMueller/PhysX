@@ -28,6 +28,7 @@ public class ActionMenu implements Menu{
     private Command rCmd;
     private Command uCmd;
     private CareTaker caretaker;
+    private boolean resetFlag = true;
     
     ActionMenu(ArrayList<ObjInterface> objs, double grav, double fric, CareTaker ct){
         objects = objs;
@@ -157,13 +158,16 @@ public class ActionMenu implements Menu{
                 rCmd = null;
                 uCmd = null;
                 prevState = null;
-                afterState = null;
-                
-                Menu gm = new GlobalMenu(caretaker);
-                gm.start();
+                afterState = null;              
+
+                resetFlag = false;
                 break;
             case 10:
-                System.out.println("Exiting Program... ");
+                caretaker.deleteState();
+                System.out.println("\nPress Enter to End Program:\n\n");
+                try {
+                    System.in.read();
+                } catch (IOException ex) {}
                 System.exit(0);
                 break;
             default:
@@ -174,7 +178,7 @@ public class ActionMenu implements Menu{
     
     @Override
     public void start(){
-        while(true){
+        while(resetFlag){
             reset();
         }
     }

@@ -5,6 +5,7 @@
  */
 package physx;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,14 +20,19 @@ public class GlobalMenu implements Menu{
     private int count = 1;
     private ArrayList<ObjInterface> objects = new ArrayList();
     private CareTaker caretaker;
+    private boolean resetFlag = true;
     
     private void reset(){
         this.displayOptions();
         this.getInput();
     }
     
-    GlobalMenu(ArrayList<ObjInterface> objs){
+    GlobalMenu(ArrayList<ObjInterface> objs, CareTaker ct){
         objects = objs;
+        friction = 0.7;
+        gravity = 9.8;
+        count = 1;
+        caretaker = ct;
     }
     GlobalMenu(CareTaker ct){
         caretaker = ct;
@@ -84,7 +90,10 @@ public class GlobalMenu implements Menu{
                 break;
             case 4:
                 System.out.println("Erasing Current Objects...");
-                objects.clear();
+                if(!objects.isEmpty())
+                    objects.clear();
+                
+                    
                 System.out.println("Beginning Object Creation...");
                 ObjFactory factory = ObjFactory.getFactory();
                 ObjInterface object = null;
@@ -163,8 +172,15 @@ public class GlobalMenu implements Menu{
                 break;
             case 6:
                 System.out.println("Erasing Current Objects...");
-                objects.clear();
-                System.out.println("Objects erased.\n");
+                if(!objects.isEmpty()){
+                    objects.clear();
+                    System.out.println("Objects erased.\n");
+
+                }
+                else{
+                    System.out.println("\nNo objects have been created.");
+                }
+               
                 break;
             case 7:
                 System.out.println("Beginning Simulation...");
@@ -174,12 +190,14 @@ public class GlobalMenu implements Menu{
             case 8:
                 System.out.println("Exiting to Main Menu.");
                 objects.clear();
-                
-                Menu mm = new MainMenu();
-                mm.start();
+                resetFlag = false;
                 break;
             case 9:
-                System.out.println("Exiting Program...");
+                caretaker.deleteState();
+                System.out.println("\nPress Enter to End Program:\n\n");
+                try {
+                    System.in.read();
+                } catch (IOException ex) {}
                 System.exit(0);
                 break;
             default:
@@ -189,7 +207,7 @@ public class GlobalMenu implements Menu{
 
 
     public void start(){
-        while(true){
+        while(resetFlag){
             reset();
         }
     }    
