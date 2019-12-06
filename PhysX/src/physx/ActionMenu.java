@@ -13,6 +13,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -21,8 +23,8 @@ public class ActionMenu implements Menu{
     private ArrayList<ObjInterface> objects;
     private double gravity;
     private double friction;
-    private ObjInterface rObj;
-    private ObjInterface uObj;
+    private ArrayList<ObjInterface> prevState;
+    private ArrayList<ObjInterface> afterState;
     private Command rCmd;
     private Command uCmd;
     private CareTaker caretaker;
@@ -80,35 +82,20 @@ public class ActionMenu implements Menu{
                 }
                 else{
                     System.out.println("Undoing most recent command... ");
-                    String cName = rObj.getName(); //get the name of the object the most recent command effected
-                    nameCheck: for(int i = 0; i<objects.size(); ++i){ //look through all objects and find the one that matches
-                        ObjInterface obj = objects.get(i);
-                        if(obj.getName().equals(cName)){ //for the one that matches
-                            
-                            if(obj.getType().equals("Sphere")){ //if its a sphere
-                                uObj = new Sphere(obj); //undone object is a copy of its current condition
-                                obj = new Sphere(rObj); //then change its current condition to its previous condition (rObj)
-                                objects.set(i, obj);
-                            }
-                            else if(obj.getType().equals("Cube")){
-                                uObj = new Cube(obj); //undone object is a copy of its current condition (uObj gets obj info)
-                                obj = new Cube(rObj); //then change its current condition to its previous condition (obj gets rObj info))
-                                objects.set(i, obj);
-                            }
-                            else{
-                                uObj = new Cylinder(obj); //same as above
-                                obj = new Cylinder(rObj);
-                                objects.set(i, obj);
-                            }
-                        }//at this point, uObj holds the post-command info and obj holds the pre-command info
-                        System.out.println("Command undone.");
-                        obj.print();
-                        uCmd = rCmd;
-                        rCmd = null;
-                        break nameCheck;
+                    try {
+                        afterState = objects; //store the latest state
+                        prevState = caretaker.loadState(); //get previous state
+                        } catch (IOException ex) {
+                            System.out.println("Unable to restore previous state");
+                        } catch (ClassNotFoundException ex) {
+                            System.out.println("Unable to restore previous state");
                     }
-                }
-                                
+                    objects = prevState; //restore the data to the previous state
+                    System.out.println("Command undone.");
+                    uCmd = rCmd;
+                    rCmd = null;
+                        
+                }        
                 break;
             case 3:
                 if(uCmd == null){
@@ -116,32 +103,14 @@ public class ActionMenu implements Menu{
                 }
                 else{
                     System.out.println("Redoing most recently undone command... ");
-                    String cName = uObj.getName();
-                    nameCheck: for(int i = 0; i<objects.size(); ++i){ //look through all objects and find the one that matches
-                        ObjInterface obj = objects.get(i);
-                        if(obj.getName().equals(cName)){
-                            if(obj.getType().equals("Sphere")){ //if its a sphere
-                                obj = new Sphere(uObj);
-                                objects.set(i, obj);
-                            }
-                            else if(obj.getType().equals("Cube")){
-                                obj = new Cube(uObj); 
-                                objects.set(i, obj);
-                            }
-                            else{
-                                obj = new Cylinder(uObj);
-                                objects.set(i, obj);
-                            }
-                            rCmd = uCmd;
-                            uCmd = null;
-                            System.out.println("Command redone.");
-                            obj.print();
-                            break nameCheck;
-                        }
-                    }
-                }
+
+                    objects = afterState; //restore the latest state (that was undone)
+                    
+                    rCmd = uCmd;
+                    uCmd = null;
+                    System.out.println("Command redone.");
+                }                
                 break;
-                
             case 4:
                 System.out.println("Objects currently created are: \n");
                 int i = 1;
@@ -154,27 +123,30 @@ public class ActionMenu implements Menu{
                 for(ObjInterface obj : objects){
                     System.out.println("\nObject "+i++ +": ");
                     System.out.println("\t");
-                    obj.print();
-                    
+                    obj.print();   
                 }
                 break;
             case 5:
                 System.out.println("Running Command: Push."); 
+                caretaker.saveState(objects);
                 Command push = new Push(objects, gravity, friction);
                 rCmd = push;
-                rObj = push.execute();
+                push.execute();
+
                 break;
             case 6:
                 System.out.println("Running Command: Lift.");  
+                caretaker.saveState(objects);
                 Command lift = new Lift(objects, gravity, friction);
                 rCmd = lift;
-                rObj = lift.execute();
+                lift.execute();
                 break;
             case 7:
                 System.out.println("Running Command: Drop.");
+                caretaker.saveState(objects);
                 Command drop = new Drop(objects, gravity, friction);                
                 rCmd = drop;
-                rObj = drop.execute();
+                drop.execute();
                 break;
             case 8:
                 Menu sm = new SaveMenu(objects, gravity, friction, caretaker);
@@ -183,9 +155,9 @@ public class ActionMenu implements Menu{
             case 9:
                 System.out.println("Exiting to Settings Menu.");
                 rCmd = null;
-                rObj = null;
                 uCmd = null;
-                uObj = null;
+                prevState = null;
+                afterState = null;
                 
                 Menu gm = new GlobalMenu(caretaker);
                 gm.start();

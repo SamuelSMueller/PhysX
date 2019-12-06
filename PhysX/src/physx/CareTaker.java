@@ -15,6 +15,8 @@ import java.io.ObjectOutputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CareTaker {
     
@@ -65,6 +67,26 @@ public class CareTaker {
                 //textFiles.add(file.getName());
             }
         }
+    }
+    
+    public void saveState(ArrayList<ObjInterface> objects){
+        String filename = "tmp.physX";
+        Path path = FileSystems.getDefault().getPath(".").toAbsolutePath();        
+        String s = path.toAbsolutePath().toString();
+        String directory = s.substring(0, s.length() - 1) + filename;
+        File file = new File(directory);
+         try {
+             this.serializeDataOut(objects, file);
+         } catch (IOException ex) {
+             System.out.println("Error: Unable to create backup file.");
+         }
+        
+    }
+    
+    public ArrayList<ObjInterface> loadState()throws FileNotFoundException, IOException, ClassNotFoundException{
+        ArrayList<ObjInterface> objects; 
+        objects = this.serializeDataIn("tmp.physX");
+        return objects;
     }
     
 }

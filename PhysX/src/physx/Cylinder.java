@@ -20,7 +20,8 @@ public class Cylinder implements ObjInterface{
     private int x; //coordinates
     private int y; 
     private int z;
-    
+    private int volume;
+
     public Cylinder(String namei, int radiusi, int heighti, float massi, int xi, int yi, int zi){
         name = namei;
         radius = radiusi;
@@ -29,6 +30,7 @@ public class Cylinder implements ObjInterface{
         x = xi;
         y = yi;
         z = zi;
+        volume = (int) (3.14 * radius * radius * height);
     }
     
     
@@ -138,4 +140,8 @@ public class Cylinder implements ObjInterface{
         return z;
     }
 
+    @Override
+    public int getVolume(){
+        return volume;
+    }
 }
