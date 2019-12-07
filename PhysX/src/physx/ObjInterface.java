@@ -24,6 +24,13 @@ public interface ObjInterface extends Serializable{
     public int getX();
     public int getY();
     public int getZ();
+    public int getFront();
+    public int getBack();
+    public int getLeft();
+    public int getRight();
+    public int getTop();
+    public int getBottom();
+    public ArrayList<ObjInterface> checkCollisions(ArrayList<ObjInterface> objs, int distance, double force, String direction);
     public int calcMovement(double force, double gravity, double friction);
     public int calcLift(double force, double gravity);
     public int calcDrop(double gravity);

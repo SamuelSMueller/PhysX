@@ -64,12 +64,17 @@ public class LoadMenu implements Menu{
                     objects = caretaker.serializeDataIn(fileName);
                     } catch (IOException ex) {
                         System.out.println("Error: Unable to load file.");
+                        resetFlag = false;
+                        break;
                     } catch (ClassNotFoundException ex) {
                         System.out.println("Error: Unable to load file.");
+                        resetFlag = false;
+                        break;
                     }
                 }
                 for(int i = 0; i<objects.size(); ++i){
                     objects.get(i).print();
+                    System.out.println("\n");
                 }
                 System.out.println("Loading Settings Menu...\n");
                 Menu gm = new GlobalMenu(objects, caretaker);

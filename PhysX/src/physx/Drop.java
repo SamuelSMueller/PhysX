@@ -6,6 +6,7 @@
 
 package physx;
 
+import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,6 +17,7 @@ import java.util.Scanner;
 public class Drop implements Command{
     private ArrayList<ObjInterface> objects = new ArrayList();
     private ArrayList<ObjInterface> collides = new ArrayList();
+    private ArrayList<ObjInterface> collided = new ArrayList();
     private String cName;
     private double friction;
     private double gravity;
@@ -47,14 +49,39 @@ public class Drop implements Command{
     }
     
     public void getInput(){
+        collided.add(cObject);
         distance = cObject.calcDrop(gravity);
-                
-        cObject.move(0, 0, -1 * distance);
+        collides = cObject.checkCollisions(objects, distance, gravity, "d");
+
+        if(!collides.isEmpty()){ //if this object hit something, it stops
+            cObject.move(0, 0, -1 * (abs(cObject.getZ() - collides.get(0).getZ())));
+            }
+        else{ //else it moves the full distance
+            cObject.move(0, 0, distance);
+        } 
+
+        while(!collides.isEmpty()){ //while there are still collisions
+            ObjInterface obj = collides.get(0); //get the first object that collides
+            collides.clear(); //remove the rest of the objects (they may never get hit depending on the amount of force)
+            distance = obj.calcDrop(gravity); //calculate how far this new object moves based on remaining force
+            collides = obj.checkCollisions(objects, distance, gravity, "u"); //find if this collides with any other objects
+
+            if(!collides.isEmpty()){ //if this object hit something, it stops
+                obj.move(0, 0, -1 * (abs(obj.getZ() - collides.get(0).getZ())));
+                    }
+            else{ //else it moves the full distance
+                obj.move(0, 0, distance);
+            } 
+            collided.add(obj); //keep the record of it
+            cObject = obj;
+        }           
+        
     }
     
     public void printResult(){
-        System.out.println(cObject.getName() + " is dropped " + distance + " meters." );
-        System.out.println(cObject.getPos());
+        for(int i = 0; i<collided.size(); ++i){
+            System.out.println( (i+1) + ": " +collided.get(i).getName() + " was dropped.\n\t" + collided.get(i).getPos() );
+        }
     }
     
        public ObjInterface checkName(){

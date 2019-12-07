@@ -6,6 +6,7 @@
 package physx;
 
 import static java.lang.Math.abs;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,14 +20,27 @@ public class Cube implements ObjInterface{
     private int x; //coordinates
     private int y; 
     private int z;
-    
+    private int front;
+    private int back;
+    private int left;
+    private int right;
+    private int top;  
+    private int bottom;
+            
     public Cube(String namei, int heighti, float massi, int xi, int yi, int zi){
         name = namei;
         height = heighti;
         mass = massi;
         x = xi;
         y = yi;
-        z = zi;    
+        z = zi;  
+        right = x + height;
+        left = x - height;
+        front = y + height;
+        back = y - height;
+        top = z + height;
+        bottom = z - height;
+    
     }
       
     
@@ -38,6 +52,13 @@ public class Cube implements ObjInterface{
             x = o.getX();
             y = o.getY();
             z = o.getZ();
+            right = x + height;
+            left = x - height;
+            front = y + height;
+            back = y - height;
+            top = z + height;
+            bottom = z - height;
+
         }
     }
     
@@ -138,5 +159,116 @@ public class Cube implements ObjInterface{
     public int getZ(){
         return z;
     }
+    
+        @Override
+    public int getFront(){
+        return front;
+    }
 
+    @Override    
+    public int getBack(){
+        return back;
+    }
+
+    @Override
+    public int getLeft(){
+        return left;
+    }
+
+    @Override
+    public int getRight(){
+        return right;    
+    }
+
+    @Override
+    public int getTop(){
+        return top;
+    }
+
+    @Override
+    public int getBottom(){
+        return bottom;
+    }
+    
+    @Override
+    public ArrayList<ObjInterface> checkCollisions(ArrayList<ObjInterface> objs, int distance, double force, String direction){
+        ArrayList<ObjInterface> collides = new ArrayList();
+        ArrayList<ObjInterface> twoFlags = new ArrayList();
+        boolean xFlag = false;
+        boolean yFlag = false;
+        boolean zFlag = false;
+        
+        for(ObjInterface obj: objs){            
+            //if the left-most point of our shape is between the left and right most point of the other object
+            if(this.getLeft() <= obj.getRight() && this.getLeft() >= obj.getLeft() ){                
+                xFlag = true; //they overlap on the x-axis
+            }
+            //if the right-most point of our shape is between the left and right most point of the other object
+            else if(this.getRight() <= obj.getRight() && this.getRight() >= obj.getLeft() ){
+                xFlag = true; //they overlap on the x-axis
+            }
+            //if the back-most point of our shape is between the front and back most point of the other object
+            if(this.getBack() <= obj.getFront() && this.getBack() >= obj.getBack()){
+                yFlag= true; //they overlap on the y-axis
+            }
+            //if the front-most point of our shape is between the front and back most point of the other object
+            if(this.getFront() <= obj.getFront() && this.getFront() >= obj.getBack()){
+                yFlag= true; //they overlap on the y-axis
+            }
+         
+            //if the bottom-most point of our shape is between the top and bottom most point of the other object
+            if(this.getBottom() <= obj.getTop() && this.getBottom() >= obj.getBottom() ){
+                zFlag = true; //they overlap on the z-axis
+            }   
+            //if the top-most point of our shape is between the top and bottom most point of the other object
+            else if(this.getTop() <= obj.getTop() && this.getTop() >= obj.getBottom() ){
+                zFlag = true; //they overlap on the z-axis
+            }
+            
+            //track any object that overlaps on two axes and the names don't match our current moving object
+            if( ( (xFlag && yFlag) || (xFlag && zFlag) || (yFlag && zFlag) ) && (!obj.getName().equals(this.getName())) ){
+                twoFlags.add(obj);
+            }
+        }
+        
+        //if the objects are not aligned on two axes, then they can't collide, so for each object that is aligned
+        for(ObjInterface obj: twoFlags){
+            
+            //if we're pushing this object forward (y+) and its aligned on x and z, and its front is behind the other objects back
+            if(    direction.equals("f") && (xFlag && zFlag) && (this.getFront() < obj.getBack())   ){
+                if( (this.getFront() + distance) >= obj.getBack()){
+                    collides.add(obj);
+                }
+            }
+            if(    direction.equals("b") && (xFlag && zFlag) && (this.getBack() > obj.getFront())    ){
+                if(  (this.getBack() - distance) <= obj.getFront()){
+                    collides.add(obj);
+                }
+            }
+            if(    direction.equals("l") && (yFlag && zFlag) && (this.getLeft() > obj.getRight())    ){
+                if( (this.getLeft() - distance)  <= obj.getRight()){
+                    collides.add(obj);
+                }
+            }
+            if(    direction.equals("r") && (yFlag && zFlag) && (this.getRight() < obj.getLeft())    ){
+                if( (this.getRight() + distance) >= obj.getLeft()){
+                    collides.add(obj);
+                }
+            }
+            if(    direction.equals("u") && (xFlag && yFlag) && (this.getTop() < obj.getBottom())    ){
+                if( (this.getTop() + distance) >= obj.getBottom()){
+                    collides.add(obj);
+                }
+            }
+            if(    direction.equals("d") && (xFlag && yFlag) && (this.getBottom() > obj.getTop())    ){
+                if( (this.getBottom() - distance) <= obj.getTop()){
+                    collides.add(obj);
+                }
+            }
+        }
+        return collides;
+    }
+    
 }
+
+
